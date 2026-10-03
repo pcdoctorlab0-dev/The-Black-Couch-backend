@@ -43,13 +43,14 @@ ini_set('display_errors', '0'); // never leak stack traces / paths to the client
 ini_set('log_errors', '1');
 
 // --- Hardened session cookie config (must run before session_start) ---
+$isProduction = getenv('APP_ENV') === 'production';
 session_set_cookie_params([
     'lifetime' => 0,
     'path'     => '/',
     'domain'   => '',
-    'secure'   => getenv('APP_ENV') === 'production', // HTTPS-only in prod
+    'secure'   => $isProduction, // HTTPS-only in prod; required for SameSite=None
     'httponly' => true,   // JS can never read the session cookie
-    'samesite' => 'Lax',  // CSRF-hardening at the cookie level too
+    'samesite' => $isProduction ? 'None' : 'Lax',
 ]);
 session_name('bc_session');
 session_start();
