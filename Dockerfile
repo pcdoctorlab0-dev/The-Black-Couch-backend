@@ -31,7 +31,4 @@ sed -i "s#<VirtualHost \\*:80>#<VirtualHost *:${PORT}>#" /etc/apache2/sites-avai
 exec apache2-foreground\n' > /entrypoint.sh && chmod +x /entrypoint.sh
 
 EXPOSE 80
-CMD ["/entrypoint.sh"].env
-.env.*
-!.env.example
-.git
+CMD ["/entrypoint.sh"]
